@@ -1,0 +1,43 @@
+JieBa:
+    url: src/main/resources/fkck.txt
+device:
+    file:
+        url: E:\device\
+fault:
+    file:
+        url: E:\fault\
+server:
+    port: 9123
+sop:
+    file:
+        url: E:\sop\
+spring:
+    data:
+        neo4j:
+            password: 123456
+            uri: bolt://localhost:7687
+            username: neo4j
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: QSJ13977690929
+        url: jdbc:mysql://localhost:3306/neo4j?serverTimezone=UTC
+        username: root
+    mail:
+        default-encoding: UTF-8
+        host: smtp.qq.com
+        password: udislrneaigtebbi
+        port: 587
+        username: 2548054679@qq.com
+    redis:
+        database: 0
+        host: localhost
+        password: ''
+        port: 6379
+    servlet:
+        multipart:
+            max-file-size: 1024MB
+            max-request-size: 1024MB
+
+v1:
+#    1为腾讯向量库和百川，2为Milvus和ChatGLM
+    ChooseDBAndModel: 1
