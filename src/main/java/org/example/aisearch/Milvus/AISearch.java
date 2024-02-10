@@ -19,6 +19,7 @@ import io.milvus.param.index.CreateIndexParam;
 import io.milvus.response.SearchResultsWrapper;
 import org.apache.commons.lang3.ObjectUtils;
 import org.example.baichuan.BaiChuanLLM;
+import org.example.chatglm.ChatGLM6B;
 import org.example.factory.MilvusClientFactory;
 
 import java.util.ArrayList;
@@ -276,7 +277,7 @@ public class AISearch {
     }
 
     private static String getLLMResult(String question, String knowledge) {
-        String llmResult = BaiChuanLLM.ask(question, knowledge);
+        String llmResult = ChatGLM6B.ask(question, knowledge);
         System.out.println("---->LLM回答结果：");
         System.out.println(llmResult);
         return llmResult;

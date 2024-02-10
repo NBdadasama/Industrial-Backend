@@ -17,11 +17,11 @@ public class JavaCallPython {
         String line = reader.readLine();
         while (line != null) {
             // 打印输出
-            System.out.println(line);
+            //System.out.println(line);
             // 将输出转换为向量
             String[] vector = line.substring(1, line.length() - 1).split(" ");
 
-            System.out.println(vector);
+            //System.out.println(vector);
             line = reader.readLine();
         }
         // 等待Python程序结束

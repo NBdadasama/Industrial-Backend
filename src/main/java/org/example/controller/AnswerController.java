@@ -26,8 +26,8 @@ public class AnswerController {//问答控制层
     @Resource
     private FunctionService functionService;
 
-
-    @PostMapping("/create/conversation/{userId}")//创建对话
+// todo 只有在发送第一个问题时，才需要创建对话
+    @GetMapping("/create/conversation/{userId}")//创建对话
     public Result createConversation(@PathVariable String userId) {
         AnswerQuestion answerQuestion = answerService.createConversation(userId);
 
@@ -36,7 +36,7 @@ public class AnswerController {//问答控制层
         return Result.success(new AnswerVo(answerQuestion));
     }
 
-    @GetMapping("/ask/question")//问问题
+    @PostMapping("/ask/question")//问问题
     public Result askQuestion(@RequestBody QuestionDto questionDto) throws Exception {
 
 

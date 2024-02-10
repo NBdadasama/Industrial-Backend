@@ -40,4 +40,4 @@ spring:
 
 v1:
 #    1为腾讯向量库和百川，2为Milvus和ChatGLM
-    ChooseDBAndModel: 1
+    ChooseDBAndModel: 2
