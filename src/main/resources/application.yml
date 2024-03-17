@@ -2,15 +2,15 @@ JieBa:
     url: src/main/resources/fkck.txt
 device:
     file:
-        url: src/main/resources/vedio/device/
+        url: src/main/resources/video/device/
 fault:
     file:
-        url: src/main/resources/vedio/fault/
+        url: src/main/resources/video/fault/
 server:
     port: 9123
 sop:
     file:
-        url: src/main/resources/vedio/sop/
+        url: src/main/resources/video/sop/
 spring:
     data:
         neo4j:
