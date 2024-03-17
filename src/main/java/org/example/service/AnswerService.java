@@ -1,6 +1,7 @@
 package org.example.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.tcvectordb.client.VectorDBClient;
 import io.milvus.client.MilvusServiceClient;
 import org.example.controller.dto.QuestionDto;
@@ -8,8 +9,10 @@ import org.example.controller.vo.AnswerVo;
 import org.example.dao.mapper.AnswerQuestionMapper;
 import org.example.dao.mapper.PromptMapper;
 import org.example.entity.obj1.AnswerQuestion;
+import org.example.entity.obj1.UserDialogDescription;
 import org.example.function.RedisUtil;
 import org.example.function.TimeUtil;
+import org.example.service.impl.UserDialogDescriptionServiceImpl;
 import org.example.service.obj.AnswerAndQuestionBo;
 import org.example.service.obj.AnswerQuestionBo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,9 @@ public class AnswerService {
 
     @Resource
     private AisearchService aisearchService;
+
+    @Resource
+    private UserDialogDescriptionServiceImpl userDialogDescriptionService;
 
     @Autowired
     private VectorDBClient vectorDBClient;
@@ -74,7 +80,22 @@ public class AnswerService {
 
         AnswerQuestion answerQuestion = new AnswerQuestion(questionDto);
         String question = answerQuestion.getQuestion();
+        String userId = answerQuestion.getUserId();
+        int keyId = answerQuestion.getKeyId();
+        String talkId = userId + String.valueOf(keyId);
         String answer = null;
+
+        // 查看对话实复创建且只存在 1 个提示语（不存在则创建一个新的对话描述）
+        if (answerQuestionMapper.selectAllByTalkId(talkId).size()==1) {
+            UserDialogDescription userDialogDescription = new UserDialogDescription();
+            userDialogDescription.setUserId(userId);
+            userDialogDescription.setKeyId(keyId);
+            userDialogDescription.setTalkId(talkId);
+            // 截取question前20个字符作为描述
+            userDialogDescription.setDescription(question.substring(0, Math.min(question.length(), 30)));
+            userDialogDescriptionService.save(userDialogDescription);
+        }
+
 
         //获取答案
         if (ChooseDBAndModel == 1) {
@@ -87,13 +108,14 @@ public class AnswerService {
         //获取时间
         answerQuestion.setAnswerTime(TimeUtil.getNowTime());
         //回答序号加1
-        answerQuestion.setNumber(answerQuestion.getNumber()+ 1);
+        answerQuestion.setNumber(answerQuestion.getNumber() + 1);
         answerQuestionMapper.insert(answerQuestion);
         return answerQuestion;
     }
 
     /**
      * 获得第一个answer
+     * todo （弃用）
      *
      * @param userId
      * @return
@@ -102,7 +124,7 @@ public class AnswerService {
         Integer key = answerQuestionMapper.findUserKey(userId);
         if (key == null)
             key = 0;
-        else key+=1;
+        else key += 1;
         AnswerQuestion answerQuestion = new AnswerQuestion(null, userId + String.valueOf(key),
                 userId, "欢迎使用空调设备运维问答系统，请输入您的问题：", null, 1, key, 1,
                 TimeUtil.getNowTime(), TimeUtil.getNowTime());
@@ -117,6 +139,7 @@ public class AnswerService {
      */
     public void deleteConversationByTalkId(String talkId) {
         AnswerQuestion answerQuestion = answerQuestionMapper.deleteByTalkId(talkId);//其实就是把字段更新为1
+        userDialogDescriptionService.remove(new QueryWrapper<UserDialogDescription>().eq("talk_id", talkId));
     }
 
 
@@ -150,7 +173,23 @@ public class AnswerService {
 
         List<List<AnswerVo>> answerVoList = new ArrayList<>();
         map.forEach((keyId, value) -> answerVoList.add(value));//按照keyId分类
-        return answerVoList;
+
+        // 排除只有提示语的对话主题
+        List<List<AnswerVo>> collect = answerVoList.stream().filter(obj -> obj.size() > 1).collect(Collectors.toList());
+        return collect;
+
+    }
+
+    /**
+     * @param userId
+     * @return
+     */
+    public List<UserDialogDescription>getAllConversationDescriptionByUserId(String userId) {
+        QueryWrapper<UserDialogDescription> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        List<UserDialogDescription> list = userDialogDescriptionService.list(queryWrapper);
+
+        return list;
 
     }
 

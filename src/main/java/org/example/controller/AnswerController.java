@@ -7,6 +7,8 @@ import org.example.entity.obj1.AnswerQuestion;
 import org.example.function.Result;
 import org.example.service.AnswerService;
 import org.example.service.FunctionService;
+import org.example.service.UserDialogDescriptionService;
+import org.example.service.impl.UserDialogDescriptionServiceImpl;
 import org.example.service.obj.BehavioralRecordBo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,8 @@ public class AnswerController {//问答控制层
 
     @Resource
     private FunctionService functionService;
+
+
 
 // todo 只有在发送第一个问题时，才需要创建对话
     @GetMapping("/create/conversation/{userId}")//创建对话
@@ -48,7 +52,7 @@ public class AnswerController {//问答控制层
         return Result.success(new AnswerVo(answerQuestion));
     }
 
-    @PostMapping("/delete/conversation/{talkId}")//删除对话
+    @GetMapping("/delete/conversation/{talkId}")//删除对话
     public Result deleteConversation(@PathVariable String talkId) {//删除对话
         answerService.deleteConversationByTalkId(talkId);
 
@@ -66,6 +70,11 @@ public class AnswerController {//问答控制层
     @GetMapping("/get/conversation/userId/{userId}")//查找一个用户所有对话
     public Result getConversationByUserId(@PathVariable String userId) {//根据userId查找所有
         return Result.success(answerService.getConversationByUserId(userId));//返回list列表
+    }
+
+    @GetMapping("/get/conversation/description/userId/{userId}")//查找一个用户所有对话描述列表
+    public Result getAllConversationDescriptionByUserId(@PathVariable String userId) {//根据userId查找所有
+        return Result.success(answerService.getAllConversationDescriptionByUserId(userId));//返回list列表
     }
 
 

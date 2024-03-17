@@ -25,6 +25,7 @@ public class FaultVo extends NodeVo {
     private String video;//维修视频地址
     private String rate;//故障等级
     private List<String> notice;//注意事项
+    private String inspectionTool;
 
     public FaultVo(Fault fault) {//
 
@@ -40,6 +41,7 @@ public class FaultVo extends NodeVo {
         this.reason=fault.getReason();
         this.video=fault.getVideo();
         this.rate=fault.getRate();
+        this.inspectionTool = fault.getInspectionTool();
 
 
         if(fault.getNotice()!=null){

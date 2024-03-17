@@ -14,11 +14,15 @@ import org.example.service.NodeService;
 import org.example.service.RelationService;
 import org.example.service.obj.BehavioralRecordBo;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,8 +49,14 @@ public class NodeController {//节点类
     @Value("${fault.file.url}")
     String faultUrl;
 
+
+    @GetMapping("/get/all/node")//获得所有节点
+    public Result getAllNode() {
+        return Result.success(nodeService.getAllNode());
+    }
+
     @GetMapping("/get/all/relation")//获得所有相关的关系
-    public Result getAllRelation() {//获得所有关系
+    public Result getAllRelation() {
         return Result.success(nodeService.getAllRelation());
     }
 
@@ -245,8 +255,12 @@ public class NodeController {//节点类
         if (device == null) {//如果不为空
             return Result.failure(Result.ResultCode.DEVICE_NOT_EXISTED);//节点不存在
         }
-        String fileUrl = deviceUrl + device.getName() + "\\" + UUID.randomUUID().toString()
-                + "." + FunctionService.getFileExtension(file.getOriginalFilename());
+        ApplicationHome applicationHome = new ApplicationHome(this.getClass());
+
+        String fileUrl=applicationHome.getDir().getParentFile()
+                .getParentFile().getAbsolutePath()+"\\"+deviceUrl+device.getName()+"\\"+ UUID.randomUUID().toString()
+                +"."+ FunctionService.getFileExtension(file.getOriginalFilename());
+
         nodeService.saveFile(file, fileUrl);//异步调用
 
 
@@ -258,21 +272,21 @@ public class NodeController {//节点类
     }
 
     @PostMapping("/upload/fault/picture/{deviceId}/{faultId}")//上传图片
-    public Result uploadFaultPicture(@RequestBody MultipartFile file,
-                                     @PathVariable String deviceId, @PathVariable String faultId) {
+    public Result uploadFaultPicture (@RequestBody MultipartFile file,
+                                       @PathVariable String deviceId,@PathVariable String faultId){
 
-        Fault fault = nodeService.getFault(deviceId, faultId);//获得这个故障
-        if (fault == null)
+        Fault fault=nodeService.getFault(deviceId,faultId);//获得这个故障
+        if(fault==null)
             return Result.failure(Result.ResultCode.FAULT_NOT_EXISTED);//故障不存在
-        String fileUrl = faultUrl + fault.getName() + "\\" + UUID.randomUUID().toString()
-                + "." + FunctionService.getFileExtension(file.getOriginalFilename());
+        String fileUrl=faultUrl+fault.getName()+"\\"+ UUID.randomUUID().toString()
+                +"."+ FunctionService.getFileExtension(file.getOriginalFilename());
 
 
-        nodeService.saveFile(file, fileUrl);//异步调用
+        nodeService.saveFile(file,fileUrl);//异步调用
 
         functionService.saveRecord(BehavioralRecordBo.RecordCode.UPLOAD_PICTURE.getMessage(), fileUrl);
 
-        fileUrl.replace("\\", "/");
+        fileUrl.replace("\\","/");
         return Result.success(fileUrl);
     }
 
@@ -286,5 +300,13 @@ public class NodeController {//节点类
         return Result.success();//导出节点
     }
 
+    @GetMapping("/get/picture")//获得视频接口
+    public byte[] getPicture(@RequestParam String url) throws IOException {
+        File file = new File(url);
+        FileInputStream inputStream = new FileInputStream(file);
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.read(bytes, 0, inputStream.available());
+        return bytes;
+    }
 
 }

@@ -5,10 +5,7 @@ import org.example.function.Result;
 import org.example.service.FunctionService;
 import org.example.service.NodeShowService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -46,6 +43,59 @@ public class NodeShowController {
 
         return Result.success(nodeShowService.getAllRelation());//获得类
     }
+
+
+    /**
+     * 根据deviceId查找所有关联故障
+     *
+     * @param deviceId
+     * @return
+     */
+    @GetMapping("/get/faults/{deviceId}")//根据deviceId查找所有关联故障
+    public Result getShowFaults(@PathVariable String deviceId) {
+        return Result.success(nodeShowService.getFaultsByDeviceId(deviceId));
+    }
+
+    /**
+     * 根据deviceId和faultId查找所有Sop节点
+     *
+     * @param deviceId
+     * @param faultId
+     * @return
+     */
+    @GetMapping("/get/sops/{deviceId}/{faultId}")
+    public Result getShowSops(@PathVariable String deviceId,@PathVariable String faultId) {//根据设备Id和错误Id查找Sop图
+        return Result.success(nodeShowService.getSopsByDeviceIdAndFaultId(deviceId,faultId));
+    }
+
+    /**
+     * 根据deviceId查找所有关联关系
+     *
+     * @param deviceId
+     * @return
+     */
+    @GetMapping("/get/deviceToFault/relations/{deviceId}")//根据deviceId查找所有关联关系
+    public Result getShowDeviceToFaultRelation(@PathVariable String deviceId) {
+        return Result.success(nodeShowService.getDeviceToFaultRelation(deviceId));
+    }
+
+    /**
+     * 根据deviceId和faultId查找所有Sop和关系
+     *
+     * @param deviceId
+     * @param faultId
+     * @return
+     */
+    @GetMapping("/get/sop/relations/{deviceId}/{faultId}")//根据deviceId和faultId查找所有Sop和关系
+    public Result getShowSopRelation(@PathVariable String deviceId,@PathVariable String faultId) {//根据设备Id和错误Id查找Sop图
+        return Result.success(nodeShowService.getSopRelation(deviceId,faultId));
+    }
+
+
+
+
+
+
 
 
 }

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-//人员管理的controller
+// 人员管理的controller
 @Controller
 @RestController
 @CrossOrigin(origins = "*")
@@ -45,10 +45,10 @@ public class UserController {
     @Resource
     FunctionService functionService;
 
-    @GetMapping("/get/all")//获得全部用户
-    public Result getAllUser(@RequestParam int page, @RequestParam int number) {
+    @PostMapping("/get/all")//获得全部用户
+    public Result getAllUser(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
 
-        List<User> users = userService.getAllUser(page, number);
+        List<User> users = userService.getAllUser(pageNum, pageSize);
 
         List<UserVo> userVos = users.stream().map((User user) ->
         {
@@ -57,13 +57,24 @@ public class UserController {
         return Result.success(userVos);//返回用户list
     }
 
+    @GetMapping("/get/{userId}")//获得单个用户
+    public Result getOneUser(@PathVariable("userId") String userId) {
+        User user = userService.getUser(userId);
+        if (user==null){
+            return Result.failure(Result.ResultCode.USER_NOT_EXISTED);//用户不存在
+        }
+        return Result.success(new UserVo(user));//返回用户list
+    }
+
     @PostMapping("/delete/{userId}")//删除用户
     public Result deleteUser(@PathVariable String userId) {
 
 
         User user = userService.getUser(userId);
 
-        int x = userService.deleteUser(userId);
+        // fixed 使用了错误的字段来删除用户
+        // 应该使用 id 字段来删除用户而不是userId
+        int x = userService.deleteUser(String.valueOf(user.getId()));
         if (x > 0) {//删除用户
             functionService.saveRecord(BehavioralRecordBo.RecordCode.DELETE_USER.getMessage(), user.toString());
             return Result.success("删除成功");

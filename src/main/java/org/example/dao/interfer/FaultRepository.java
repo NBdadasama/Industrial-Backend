@@ -33,4 +33,10 @@ public interface FaultRepository extends Neo4jRepository<Fault,Long> {
 
     @Query(" MATCH (fault:Fault) return fault")
     List<Fault> findAllFault();
+
+
+    @Query("MATCH (Device)-[:DEVICETOFAULT]->(Fault) WHERE Device.deviceId = {deviceId} RETURN Fault")
+    List<Fault> findFaultsByDeviceId(@Param(value = "deviceId") String deviceId);
+
+
 }

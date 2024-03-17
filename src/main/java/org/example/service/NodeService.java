@@ -15,10 +15,14 @@ import org.example.entity.obj1.Color;
 import org.neo4j.ogm.model.Result;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -204,4 +208,5 @@ public class NodeService {//device，fault，节点类
         }
 
     }
+
 }

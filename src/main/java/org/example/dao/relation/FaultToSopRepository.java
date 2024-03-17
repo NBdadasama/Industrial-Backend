@@ -12,4 +12,6 @@ public interface FaultToSopRepository extends Neo4jRepository<FaultToSop,Long> {
 
     @Query("MATCH (fault:Fault)-[r]->(sop:SOP) RETURN r")
     List<FaultToSop> findAllRelation();
+
+    Object findRelationByDeviceId(String deviceId);
 }

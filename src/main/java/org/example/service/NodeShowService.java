@@ -104,4 +104,39 @@ public class NodeShowService {
     public Result getAllRelation() {
         return deviceRepository.getAllRelation();
     }
+
+    public List<FaultVo> getFaultsByDeviceId(String deviceId) {//找到全部故障节点
+        List<Fault> faultList = faultRepository.findFaultsByDeviceId(deviceId);
+        List<FaultVo> faultVos = faultList.stream()
+                .map((Fault fault) -> {
+                    return new FaultVo(fault);
+                }).collect(Collectors.toList());
+
+        return faultVos;
+    }
+
+    public List<SopVo> getSopsByDeviceIdAndFaultId(String deviceId, String faultId) {//找到sop节点
+
+        List<Sop> sopList = sopRepository.findAllSopByFaultID(deviceId,faultId);
+        List<SopVo> sopVos = sopList.stream().map((Sop sop) ->
+        {
+            return new SopVo(sop);
+        }).collect(Collectors.toList());
+        return sopVos;
+
+
+    }
+
+    public Result getDeviceToFaultRelation(String deviceId) {
+        return deviceToFaultRepository.findByDeviceId(deviceId);
+    }
+
+    public Result getSopRelation(String deviceId,String faultId) {
+        return  sopToSopRepository.findByDeviceIdAndFaultId(deviceId,faultId);
+    }
+
+
+
+
+
 }
