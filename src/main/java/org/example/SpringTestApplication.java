@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.example.aisearch.Milvus.AISearch.initMilvus;
 
 @SpringBootApplication
 @MapperScan("org.example.dao.mapper")

@@ -36,17 +36,10 @@ public class AnswerService {
     @Resource
     private RedisUtil redisUtil;
 
-    @Resource
-    private AisearchService aisearchService;
 
     @Resource
     private UserDialogDescriptionServiceImpl userDialogDescriptionService;
 
-    @Autowired
-    private VectorDBClient vectorDBClient;
-
-    @Autowired
-    private MilvusServiceClient milvusServiceClient;
 
     @Value("${v1.ChooseDBAndModel}")
     private Integer ChooseDBAndModel;
@@ -98,11 +91,9 @@ public class AnswerService {
 
 
         //获取答案
-        if (ChooseDBAndModel == 1) {
-            answer = aisearchService.askBaiChuanAndTXVectorDB(question, vectorDBClient);
-        } else if (ChooseDBAndModel == 2) {
-            answer = aisearchService.askChatglmAndMilvus(question, milvusServiceClient);
-        }
+        answer = "";
+
+
         //这里跨模块调用问题模块
         answerQuestion.setAnswer(answer);
         //获取时间
