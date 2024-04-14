@@ -7,14 +7,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Spring-Boot-Neo4jAPI" />
         <module name="untitled4" />
+        <module name="demogit" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Spring-Boot-Neo4jAPI" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Spring-Boot-Neo4jAPI" options="-parameters" />
+      <module name="demogit" options="-parameters" />
       <module name="untitled4" options="-parameters" />
     </option>
   </component>

@@ -22,7 +22,7 @@ public class AnswerVo {
     private Timestamp answerTime;//回答时间
     private Timestamp questionTime;//提问时间
 
-    private int showOrNot;
+    private int showOrNot;//是否展示
 
     public AnswerVo(AnswerQuestion answerQuestion) {
 
@@ -34,7 +34,15 @@ public class AnswerVo {
         this.number = answerQuestion.getNumber();
         this.answerTime = answerQuestion.getAnswerTime();
         this.questionTime = answerQuestion.getQuestionTime();
-
         this.showOrNot=answerQuestion.getShowOrNot();
     }
+
+
+
+
+
+
+
+
+
 }

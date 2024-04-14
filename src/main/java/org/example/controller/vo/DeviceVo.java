@@ -32,6 +32,7 @@ public class DeviceVo extends NodeVo {
         this.category = device.getCategory();
         this.color = device.getColor();//颜色动态可变
         this.nodeId = device.getNodeId();
+
         this.deviceId = device.getDeviceId();
         this.devicePicture = device.getDevicePicture();
         this.name = device.getName();

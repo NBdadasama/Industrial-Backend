@@ -50,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/login").anonymous()//登录
                 .antMatchers("/user/get/verification/code").anonymous()//获得验证码
                 .antMatchers("/user/reset/password").anonymous()//重新设置密码
-                .antMatchers("/get/picture").anonymous()
+                .antMatchers("/get/picture").anonymous()//获得图片视频
+                .antMatchers("/dify/ask/question").anonymous()//问问题
                 //.antMatchers("/user/register").anonymous()
                 // 除了上面的请求，任何请求都需要鉴权认证
 //                .anyRequest().authenticated()

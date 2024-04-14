@@ -34,19 +34,13 @@ public class AnswerController {//问答控制层
     @GetMapping("/create/conversation/{userId}")//创建对话
     public Result createConversation(@PathVariable String userId) {
         AnswerQuestion answerQuestion = answerService.createConversation(userId);
-
         functionService.saveRecord(BehavioralRecordBo.RecordCode.CREATE_CONSERVATION.getMessage(), answerQuestion.toString());//创建对话
-
         return Result.success(new AnswerVo(answerQuestion));
     }
 
     @PostMapping("/ask/question")//问问题
     public Result askQuestion(@RequestBody QuestionDto questionDto) throws Exception {
-
-
         AnswerQuestion answerQuestion = answerService.askQuestion(questionDto);
-
-
         functionService.saveRecord(BehavioralRecordBo.RecordCode.ASK_QUESTION.getMessage(), answerQuestion.toString());//问问题
 
         return Result.success(new AnswerVo(answerQuestion));

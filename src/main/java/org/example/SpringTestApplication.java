@@ -13,16 +13,10 @@ import java.nio.file.Paths;
 @MapperScan("org.example.dao.mapper")
 @EnableAsync//启动异步调用
 public class SpringTestApplication {
-
-
-    //@Value("${JieBa.url}")//配置文件注入url类
     static String s="src/main/resources/fkck.txt";
     public static void main(String[] args) throws Exception {
         Path path = Paths.get(s);
         WordDictionary.getInstance().loadUserDict(path);
-
-
-
         SpringApplication.run(SpringTestApplication.class, args);
 
     }

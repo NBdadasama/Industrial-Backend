@@ -41,10 +41,6 @@ public class AnswerService {
     private UserDialogDescriptionServiceImpl userDialogDescriptionService;
 
 
-    @Value("${v1.ChooseDBAndModel}")
-    private Integer ChooseDBAndModel;
-
-
     private PromptMapper promptMapper;
 
     /**
