@@ -95,7 +95,7 @@ public class IndNodeController {
     }
 
 
-    /**根据deviceId获取所有相关的检查
+    /**根据deviceId获取所有相关的inspection信息
      * @param deviceId
      * @return List<inspectionVo>
      */
@@ -106,7 +106,7 @@ public class IndNodeController {
     }
 
 
-    /**
+    /**根据deviceId获取所有相关的maintenance信息
      * @param deviceId
      * @return List<IndMaintenanceVo>
      */
@@ -136,6 +136,56 @@ public class IndNodeController {
     }
 
 
+    /**根据名字和deviceId查找设备
+     * @param name
+     * @param deviceId
+     * @return
+     */
+    @GetMapping("/get/device/by/deviceId/name/{deviceId}")//
+    public Result getIndDeviceVoByDeviceIdAndName(@RequestParam String name,
+                                       @PathVariable Long deviceId){
+        return Result.success(indNodeService.searchByDeviceIdAndName(deviceId,name));
+    }
+
+
+    /**根据名字查找设备
+     * @param name
+     * @return
+     */
+    @GetMapping("/get/device/by/deviceId/name")//
+    public Result getIndDeviceVoByName(@RequestParam String name){
+        return Result.success(indNodeService.searchDeviceByName(name));
+    }
+
+
+    /**唯一索引id查找device
+     * @param nodeId
+     * @return
+     */
+    @GetMapping("/get/device/by/{nodeId}")//
+    public Result getIndDeviceVoByNodeId(@PathVariable Long nodeId){
+        return Result.success(indNodeService.findDeviceByNodeId(nodeId));
+    }
+
+
+    /**唯一索引查找inspection
+     * @param nodeId
+     * @return
+     */
+    @GetMapping("/get/inspection/by/{nodeId}")//
+    public Result getIndInspectionByNodeId(@PathVariable Long nodeId){
+        return Result.success(indNodeService.findInspectionByNodeId(nodeId));
+    }
+
+
+    /**唯一id索引查找maintenance
+     * @param nodeId
+     * @return
+     */
+    @GetMapping("/get/maintenance/by/{nodeId}")//
+    public Result getIndMaintenanceByNodeId(@PathVariable Long nodeId){
+        return Result.success(indNodeService.findMaintenanceByNodeId(nodeId));
+    }
 
 
 

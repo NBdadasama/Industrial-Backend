@@ -56,6 +56,9 @@ public class IndDevice {
     private String description;
 
     @Property
+    private String picture;
+
+    @Property
     private Long sort;
 
     @Property

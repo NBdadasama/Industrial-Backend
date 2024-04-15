@@ -158,4 +158,53 @@ public class IndNodeService {
         return indMaintenanceVos;
     }
 
+    public IndDeviceVo findDeviceByNodeId(Long nodeId) {
+
+        IndDevice indDevice=indDeviceRepository.findByNodeId(nodeId);
+
+        if(indDevice!=null)
+            return new IndDeviceVo(indDevice);
+        else return null;
+    }
+
+
+    public IndInspectionVo findInspectionByNodeId(Long nodeId) {
+
+        IndInspection indInspection=indInspectionRepository.findByNodeId(nodeId);
+        if(indInspection!=null)
+            return new IndInspectionVo(indInspection);
+        else return null;
+    }
+
+
+    public IndMaintenanceVo findMaintenanceByNodeId(Long nodeId) {
+
+        IndMaintenance indMaintenance=indMaintenanceRepository.findByNodeId(nodeId);
+        if(indMaintenance!=null)
+            return new IndMaintenanceVo(indMaintenance);
+        else return null;
+    }
+
+
+    public List<IndDeviceVo> searchByDeviceIdAndName(Long deviceId, String name) {
+
+        name=".*"+name+".*";
+        List<IndDevice> indDevices=indDeviceRepository.findByBomNameAndDeviceId(deviceId,name);
+        List<IndDeviceVo> indDeviceVos=indDevices.stream().map(n->{
+            return new IndDeviceVo(n);
+        }).collect(Collectors.toList());
+
+        return indDeviceVos;
+    }
+
+
+    public List<IndDeviceVo> searchDeviceByName(String name) {
+
+        name=".*"+name+".*";
+        List<IndDevice> indDevices=indDeviceRepository.findByBomName(name);
+        List<IndDeviceVo> indDeviceVos=indDevices.stream().map(n->{
+            return new IndDeviceVo(n);
+        }).collect(Collectors.toList());
+        return indDeviceVos;
+    }
 }

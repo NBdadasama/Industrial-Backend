@@ -70,6 +70,9 @@ public class IndMaintenance {
     private String inspectionStandard;
     @Property
     private String maintenanceStandard;
+
+    @Property
+    private String video;//视频
     @Property
     private Long createBy;
     @Property

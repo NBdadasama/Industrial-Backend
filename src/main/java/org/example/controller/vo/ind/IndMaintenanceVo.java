@@ -35,6 +35,8 @@ public class IndMaintenanceVo extends NodeVo {
     private String inspectionStandard;
     private String maintenanceStandard;
 
+    private String video;
+
     public IndMaintenanceVo(IndMaintenance indMaintenance){
         this.category = indMaintenance.getCategory();
         this.color = indMaintenance.getColor();//颜色动态可变
@@ -61,8 +63,7 @@ public class IndMaintenanceVo extends NodeVo {
         this.versionId = indMaintenance.getVersionId();
         this.inspectionStandard = indMaintenance.getInspectionStandard();
         this.maintenanceStandard = indMaintenance.getMaintenanceStandard();
-
-
+        this.video=indMaintenance.getVideo();
 
 
     }

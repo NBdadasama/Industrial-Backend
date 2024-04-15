@@ -36,4 +36,18 @@ public interface IndDeviceRepository extends Neo4jRepository<IndDevice,Long> {
                                @Param(value = "pageSize")int pageSize);
 
 
+
+
+
+    @Query("MATCH(a:IndDevice) where a.boneName =~{name} RETURN a")//根据名字模糊查询设备
+    List<IndDevice> findByBomName(@Param(value = "name") String name);
+
+
+    @Query("MATCH(a:IndDevice) where a.deviceId={deviceId} and a.boneName =~{name} RETURN a")//根据名字模糊查询设备
+    List<IndDevice> findByBomNameAndDeviceId(Long deviceId, String name);
+
+
+
+    @Query("MATCH (n:IndDevice) WHERE id(n) = {nodeId} RETURN n")//根据名字模糊查询设备
+    IndDevice findByNodeId(Long nodeId);
 }

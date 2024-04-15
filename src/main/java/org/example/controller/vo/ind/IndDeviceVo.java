@@ -25,6 +25,10 @@ public class IndDeviceVo extends NodeVo {
     private Long parentId;//父节点id
     private String description;
     private Long sort;
+
+    private String picture;
+
+
     public IndDeviceVo(IndDevice indDevice){
 
         this.category = indDevice.getCategory();
@@ -43,6 +47,8 @@ public class IndDeviceVo extends NodeVo {
         this.parentId = indDevice.getParentId(); // 假设IndDevice有getParentId()方法
         this.description = indDevice.getDescription(); // 假设IndDevice有getDescription()方法
         this.sort = indDevice.getSort(); // 假设IndDevice有getSort()方法
+
+        this.picture=indDevice.getPicture();
 
 
 

@@ -38,6 +38,7 @@ public class IndInspectionVo extends NodeVo {
     private String taskAssign;//任务归属
     private Long versionId;//版本Id
     private Long sort;
+    private String video;
 
     public IndInspectionVo(IndInspection indInspection){
         this.category = indInspection.getCategory();
@@ -70,6 +71,8 @@ public class IndInspectionVo extends NodeVo {
         this.color = indInspection.getColor();
         // 假设 nodeId 是从 IndInspection 复制过来的
         this.nodeId = indInspection.getNodeId();
+
+        this.video=indInspection.getVideo();
 
 
     }

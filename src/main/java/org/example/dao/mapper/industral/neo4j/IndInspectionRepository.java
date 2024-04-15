@@ -21,4 +21,9 @@ public interface IndInspectionRepository extends Neo4jRepository<IndInspection,L
     @Query("MATCH(a:IndInspection) RETURN a SKIP {pageSize}*{pageNumber} LIMIT {pageSize} ")
     List<IndInspection> findByPage(@Param(value = "pageNumber") int pageNumber,
                                    @Param(value = "pageSize")int pageSize);
+
+
+    @Query("MATCH (n:IndInspection) WHERE id(n) = {nodeId} RETURN n")//根据名字模糊查询设备
+    IndInspection findByNodeId(Long nodeId);
+
 }

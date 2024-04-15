@@ -71,6 +71,10 @@ public class IndInspection {
     private String taskAssign;//任务归属
     @Property
     private Long versionId;//版本Id
+
+    @Property
+    private String video;
+
     @Property
     private Long createBy;
 

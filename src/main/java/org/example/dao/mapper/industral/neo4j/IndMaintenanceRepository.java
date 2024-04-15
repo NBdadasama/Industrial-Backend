@@ -18,4 +18,8 @@ public interface IndMaintenanceRepository extends Neo4jRepository<IndMaintenance
     @Query("MATCH(a:IndMaintenance) RETURN a SKIP {pageSize}*{pageNumber} LIMIT {pageSize} ")
     List<IndMaintenance> findByPage(@Param(value = "pageNumber") int pageNumber,
                                     @Param(value = "pageSize")int pageSize);
+
+    @Query("MATCH (n:IndMaintenance) WHERE id(n) = {nodeId} RETURN n")//根据名字模糊查询设备
+    IndMaintenance findByNodeId(Long nodeId);
+
 }
